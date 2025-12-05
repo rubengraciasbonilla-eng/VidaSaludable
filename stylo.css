@@ -1,0 +1,527 @@
+ body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #d7ff00; /* verde limón */
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    header {
+      padding: 20px;
+      position: relative;
+      z-index: 10;
+    }
+    h1 {
+      color: #ffffff;
+      text-shadow: 0 0 17px #00ff00, 0 0 183px #00ff00;
+      font-size: 3.5em;
+      margin-bottom: 30px;
+    }
+    /* Logos posicionados en la parte superior */
+    .logo-container1 {
+      position: absolute;
+      top: 11px;
+      right: 5px;
+      z-index: 100;
+    }
+   
+    .logo-container2 {
+      position: absolute;
+      top: 11px;
+      left: 5px;
+      z-index: 100;
+    }
+   
+    .glow-img {
+        width: 103px;
+        height: auto;
+    }
+    .glow-img2 {
+      width: 140px;
+        height: auto;
+    }
+    .main-container {
+      background-color: white;
+      border-radius: 20px;
+      width: 80%;
+      padding: 10px;
+      box-shadow: 0 0 17px #00ff00, 0 0 183px #00ff00;
+      margin: 0px auto 20px;
+      max-width: 900px;
+    }
+    .video-container {
+      background-color: white;
+      border-radius: 20px;
+      width: 70%;
+      padding: 20px;
+      box-shadow: 0 0 17px #00ff00, 0 0 183px #00ff00;
+      margin: 0 auto 20px;
+      max-width: 800px;
+    }
+    .menu {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 10px;
+    }
+    .menu button {
+      background-color: #9aefb5;
+      color: #000000;
+      border: none;
+      border-radius: 10px;
+      padding: -9px 25px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 20px #00ff00, 0 0 183px #00ff00;
+    }
+    .menu button:hover {
+      background-color: #00ff00;
+    }
+    .sub-menu {
+      display: none;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0;
+      padding: 10px;
+      background-color: rgba(154, 239, 181, 0.5);
+      border-radius: 10px;
+    }
+    .sub-menu button {
+      background-color: #ff9e00;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 15px;
+      font-size: 0.9em;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 10px #ff9e00;
+    }
+    .sub-menu button:hover {
+      background-color: #ff6b00;
+    }
+    .info {
+      display: none;
+      margin-top: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      animation: aparecer 0.3s ease-in-out;
+    }
+    .sub-info {
+      display: none;
+      margin-top: 15px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      animation: aparecer 0.3s ease-in-out;
+    }
+    .sub-info img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 5px;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+    .sub-info img:hover {
+      opacity: 0.8;
+    }
+    .recursos {
+      display: none;
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .recurso {
+      width: 200px;
+      height: 150px;
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 0 17px #00ff00, 0 0 183px #00ff00;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #ff9e00;
+      transition: transform 0.3s;
+      text-align: center;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+    .recurso:hover {
+      transform: scale(1.05);
+    }
+    /* Modal del video */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal iframe {
+      width: 80%;
+      height: 60%;
+      border-radius: 10px;
+    }
+    .cerrar {
+      position: absolute;
+      top: 20px;
+      right: 40px;
+      font-size: 2em;
+      color: white;
+      cursor: pointer;
+      background: rgba(0,0,0,0.6);
+      padding: 5px 15px;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+    .cerrar:hover {
+      background: red;
+    }
+    .video-container iframe {
+      width: 100%;
+      height: 450px;
+      border-radius: 10px;
+    }
+    /* Modal para imágenes */
+    .modal-imagen {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-imagen img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+    }
+    .cerrar-imagen {
+      position: absolute;
+      top: 20px;
+      right: 40px;
+      font-size: 2em;
+      color: white;
+      cursor: pointer;
+      background: rgba(0,0,0,0.6);
+      padding: 5px 15px;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+    .cerrar-imagen:hover {
+      background: red;
+    }
+    footer {
+      margin-top: 30px;
+      font-size: 0.9em;
+      color: #333;
+    }
+    @keyframes aparecer {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    /* Responsivo */
+    @media (max-width: 768px) {
+      .main-container, .video-container {
+        width: 95%;
+      }
+      h1 {
+        font-size: 2.5em;
+      }
+      .menu {
+        flex-direction: column;
+        align-items: center;
+      }
+      .menu button {
+        width: 80%;
+      }
+      .sub-menu {
+        flex-direction: column;
+        align-items: center;
+      }
+      .sub-menu button {
+        width: 70%;
+      }
+      .sub-info img {
+        width: 100%;
+        height: auto;
+      }
+    }
+    .sub-info  img {
+      width: 30%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+     button {
+      padding: 10px 18px;
+      font-size: 1rem;
+      background-color: #00ff00;
+      border-radius: 35px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+/* ==================== CÓDIGOS QR - VERSIÓN CORREGIDA Y PERFECTA ==================== */
+.codigosqr {
+  display: flex;
+  justify-content: center;      /* Centra horizontalmente los 4 QR */
+  align-items: center;          /* Alinea verticalmente (por si hay diferencia de altura) */
+  gap: 30px;                    /* Espacio uniforme entre los QR */
+  flex-wrap: wrap;              /* En móviles pasan a 2x2 o 1x4 sin romperse */
+  padding: 40px 20px;
+  background-color: white;
+  border-radius: 20px;
+  margin: 30px auto;
+  max-width: 1000px;
+  box-shadow: 0 0 17px #00ff00, 0 0 183px #00ff00;
+}
+
+/* Todos los QR tendrán exactamente el mismo tamaño */
+.codigosqr img {
+  width: 200px;                 /* Tamaño fijo recomendado */
+  height: 200px;                /* Hace que sean cuadrados perfectos */
+  object-fit: cover;            /* Recorta si la imagen no es cuadrada */
+  border-radius: 15px;
+  border: 4px solid #00ff00;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.6);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Efecto bonito al pasar el mouse */
+.codigosqr img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 30px #00ff00;
+  border-color: #00ff00;
+}
+
+/* Responsive: en pantallas pequeñas se ponen 2 por fila */
+@media (max-width: 768px) {
+  .codigosqr {
+    gap: 20px;
+    padding: 30px 15px;
+  }
+  
+  .codigosqr img {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .codigosqr img {
+    width: 130px;
+    height: 130px;
+  }
+}
+
+.qrsana {
+  display: flex;
+  justify-content: center;      /* Centra horizontalmente los 4 QR */
+  align-items: center;          /* Alinea verticalmente (por si hay diferencia de altura) */
+  gap: 30px;                    /* Espacio uniforme entre los QR */
+  flex-wrap: wrap;              /* En móviles pasan a 2x2 o 1x4 sin romperse */
+  padding: 40px 20px;
+  background-color: white;
+  border-radius: 20px;
+  margin: 30px auto;
+  max-width: 1000px;
+  box-shadow: 0 0 17px #00ff00, 0 0 183px #00ff00;
+}
+.qrsana img {
+  width: 354px;                 /* Tamaño fijo recomendado */
+  height: 200px;                /* Hace que sean cuadrados perfectos */
+  object-fit: cover;            /* Recorta si la imagen no es cuadrada */
+  border-radius: 15px;
+  border: 4px solid #ffbb00;
+  box-shadow: 0 0 15px rgba(205, 255, 0, 0.6);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* ==================== CONTENEDOR DE 3 VÍDEOS PERFECTAMENTE ALINEADOS ==================== */
+.video-grid {
+  display: flex;
+  justify-content: center;      /* Centra horizontalmente los 3 vídeos */
+  align-items: center;           /* Alinea verticalmente */
+  gap: 30px;                     /* Espacio uniforme entre vídeos */
+  flex-wrap: wrap;               /* En móviles pasan a columna si es necesario */
+  padding: 40px 20px;
+  background-color: white;
+  border-radius: 20px;
+  margin: 30px auto;
+  max-width: 1200px;
+  box-shadow: 0 0 17px #00ff00, 0 0 183px #00ff00;
+}
+
+.video-item {
+  flex: 1;                       /* Cada vídeo ocupa el mismo espacio */
+  min-width: 280px;              /* Ancho mínimo para móviles */
+  max-width: 380px;              /* Ancho máximo para que no se hagan gigantes */
+  text-align: center;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+  transition: transform 0.3s ease;
+}
+
+.video-item:hover {
+  transform: translateY(-8px);
+}
+
+.video-item video {
+  width: 100%;                   /* Ocupa todo el ancho del contenedor */
+  height: 220px;                 /* Altura fija → todos iguales */
+  object-fit: cover;             /* Mantiene proporción sin deformar */
+  border-radius: 12px;
+  border: 3px solid #8a00ff;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.6);
+}
+
+/* Título opcional debajo de cada vídeo */
+.video-item p {
+  margin-top: 12px;
+  font-weight: bold;
+  color: #000000;
+  text-shadow: 0 0 8px #00ff00;
+}
+
+/* Responsive perfecto */
+@media (max-width: 992px) {
+  .video-grid {
+    gap: 25px;
+    padding: 30px 15px;
+  }
+  .video-item {
+    max-width: 340px;
+  }
+  .video-item video {
+    height: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .video-grid {
+    flex-direction: column;      /* En tablets y móviles: uno debajo del otro */
+  }
+  .video-item {
+    max-width: 90%;
+  }
+}
+
+     .carousel {
+      position: relative;
+      width: 900px;
+      height: 500px;
+      overflow: hidden;
+    }
+
+    .slides {
+      display: flex;
+      height: 100%;
+      transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .slide {
+      min-width: 300px;
+      height: 100%;
+      position: relative;
+      transition: all 0.8s ease;
+      cursor: pointer;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    /* Efecto de escala y opacidad */
+    .slide {
+      transform: scale(0.7);
+      opacity: 0.5;
+      filter: grayscale(60%);
+    }
+
+    .slide.active {
+      transform: scale(1);
+      opacity: 1;
+      filter: grayscale(0%);
+      z-index: 10;
+    }
+
+    .slide.prev,
+    .slide.next {
+      transform: scale(0.85);
+      opacity: 0.8;
+      filter: grayscale(30%);
+    }
+
+    /* Flechas opcionales (puedes ocultarlas si solo quieres automático) */
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.3);
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 28px;
+      cursor: pointer;
+      z-index: 100;
+      transition: 0.3s;
+    }
+
+    .arrow:hover { background: rgba(255,255,255,0.6); }
+    .arrow.left  { left: 20px; }
+    .arrow.right { right: 20px; }
+
+    /* Puntos indicadores (opcional) */
+    .dots {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      background: rgba(255,255,255,0.4);
+      border-radius: 50%;
+      transition: 0.4s;
+    }
+
+    .dot.active {
+      background: white;
+      transform: scale(1.4);
+    }

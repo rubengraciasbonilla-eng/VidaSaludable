@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrusel Centrado Automático</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+    }
+
+    .carousel {
+      position: relative;
+      width: 900px;
+      height: 500px;
+      overflow: hidden;
+    }
+
+    .slides {
+      display: flex;
+      height: 100%;
+      transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .slide {
+      min-width: 300px;
+      height: 100%;
+      position: relative;
+      transition: all 0.8s ease;
+      cursor: pointer;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    /* Efecto de escala y opacidad */
+    .slide {
+      transform: scale(0.7);
+      opacity: 0.5;
+      filter: grayscale(60%);
+    }
+
+    .slide.active {
+      transform: scale(1);
+      opacity: 1;
+      filter: grayscale(0%);
+      z-index: 10;
+    }
+
+    .slide.prev,
+    .slide.next {
+      transform: scale(0.85);
+      opacity: 0.8;
+      filter: grayscale(30%);
+    }
+
+    /* Flechas opcionales (puedes ocultarlas si solo quieres automático) */
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.3);
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 28px;
+      cursor: pointer;
+      z-index: 100;
+      transition: 0.3s;
+    }
+
+    .arrow:hover { background: rgba(255,255,255,0.6); }
+    .arrow.left  { left: 20px; }
+    .arrow.right { right: 20px; }
+
+    /* Puntos indicadores (opcional) */
+    .dots {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      background: rgba(255,255,255,0.4);
+      border-radius: 50%;
+      transition: 0.4s;
+    }
+
+    .dot.active {
+      background: white;
+      transform: scale(1.4);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="carousel">
+    <div class="slides" id="slides">
+      <div class="slide active"><img src="saludmental/Captura%20de%20pantalla%202025-11-14%20181138.png" alt="1"></div>
+      <div class="slide"><img src="saludmental/Captura%20de%20pantalla%202025-11-14%20134207.png" alt="2"></div>
+      <div class="slide"><img src="saludmental/Captura%20de%20pantalla%202025-11-14%20181050.png" alt="3"></div>
+      <div class="slide"><img src="saludmental/Captura%20de%20pantalla%202025-11-14%20181108.png" alt="4"></div>
+      <div class="slide"><img src="saludmental/Captura%20de%20pantalla%202025-11-14%20181123.png" alt="5"></div>
+      <div class="slide"><img src="saludmental/Captura%20de%20pantalla%202025-11-14%20181138.png" alt="6"></div>
+    </div>
+
+    <!-- Flechas (opcional: quítalas si no las quieres) -->
+    <button class="arrow left" onclick="move(-1)">‹</button>
+    <button class="arrow right" onclick="move(1)">›</button>
+
+    <div class="dots" id="dots"></div>
+  </div>
+
+  <script>
+    const slidesContainer = document.getElementById('slides');
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let currentIndex = 0;
+    const autoPlayInterval = 4000; // 4 segundos
+
+    // Crear puntos indicadores
+    const dotsContainer = document.getElementById('dots');
+    slides.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      if (i === 0) dot.classList.add('active');
+      dot.onclick = () => goToSlide(i);
+      dotsContainer.appendChild(dot);
+    });
+    const dots = document.querySelectorAll('.dot');
+
+    function updateCarousel() {
+      // Quitar todas las clases especiales
+      slides.forEach(s => {
+        s.classList.remove('active', 'prev', 'next');
+      });
+      dots.forEach(d => d.classList.remove('active'));
+
+      // Asignar clases según posición
+      slides[currentIndex].classList.add('active');
+      dots[currentIndex].classList.add('active');
+
+      // Imagen anterior
+      let prevIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+      slides[prevIndex].classList.add('prev');
+
+      // Imagen siguiente
+      let nextIndex = (currentIndex + 1) % totalSlides;
+      slides[nextIndex].classList.add('next');
+
+      // Mover el contenedor (para centrar la imagen activa)
+      const offset = -currentIndex * 300 + (900 - 300) / 2; // 300px = ancho de slide
+      slidesContainer.style.transform = `translateX(${offset}px)`;
+    }
+
+    function move(step) {
+      currentIndex = (currentIndex + step + totalSlides) % totalSlides;
+      updateCarousel();
+    }
+
+    function goToSlide(index) {
+      currentIndex = index;
+      updateCarousel();
+    }
+
+    // Auto-avance
+    let autoplay = setInterval(() => move(1), autoPlayInterval);
+
+    // Pausar al pasar el ratón (opcional)
+    document.querySelector('.carousel').addEventListener('mouseenter', () => clearInterval(autoplay));
+    document.querySelector('.carousel').addEventListener('mouseleave', () => {
+      autoplay = setInterval(() => move(1), autoPlayInterval);
+    });
+
+    // Inicializar
+    updateCarousel();
+  </script>
+</body>
+</html>

@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Test de Emociones</title>
+  <style>
+    /* Reset y estilo base similar a Chrome */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 24px;
+      background-color: #f1f3f4;
+      line-height: 1.5;
+      color: #202124;
+    }
+    h1, h2 {
+      color: #202124;
+      font-weight: 400;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 8px;
+    }
+    p {
+      font-size: 1rem;
+      margin-bottom: 24px;
+    }
+    fieldset {
+      margin-bottom: 24px;
+      padding: 24px;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      background-color: #ffffff;
+      box-shadow: 0 1px 2px rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+      transition: box-shadow 0.2s ease;
+    }
+    fieldset:hover {
+      box-shadow: 0 2px 4px rgba(60,64,67,0.3), 0 2px 6px 1px rgba(60,64,67,0.15);
+    }
+    legend {
+      font-weight: 500;
+      padding: 0 8px;
+      color: #1a73e8;
+      font-size: 1.1rem;
+    }
+    .pregunta {
+      margin-bottom: 16px;
+      font-weight: 500;
+      font-size: 1rem;
+      color: #202124;
+    }
+    .opcion {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      cursor: pointer;
+      padding: 8px 0;
+      transition: background-color 0.1s ease;
+    }
+    .opcion:hover {
+      background-color: #f8f9fa;
+      border-radius: 4px;
+      padding-left: 8px;
+    }
+    input[type="radio"] {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #5f6368;
+      border-radius: 50%;
+      background-color: #ffffff;
+      margin-right: 12px;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+    input[type="radio"]:checked {
+      background-color: #1a73e8;
+      border-color: #1a73e8;
+    }
+    input[type="radio"]:checked::after {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    input[type="radio"]:focus {
+      box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.3);
+      border-radius: 50%;
+    }
+    #resultados {
+      margin-top: 32px;
+      padding: 24px;
+      border-radius: 8px;
+      border: 1px solid #dadce0;
+      background: #ffffff;
+      box-shadow: 0 1px 2px rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+    }
+    .emocion {
+      margin-bottom: 12px;
+      padding: 12px;
+      border-left: 4px solid #1a73e8;
+      background-color: #f8f9fa;
+      border-radius: 4px;
+    }
+    .alta { font-weight: 500; color: #137333; }
+    .media { font-weight: 500; color: #f57c00; }
+    .baja { font-weight: 500; color: #d93025; }
+    .nota {
+      font-size: 0.875rem;
+      color: #5f6368;
+      margin-top: 16px;
+      line-height: 1.4;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: 500;
+      background-color: #1a73e8;
+      color: #ffffff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, box-shadow 0.2s ease;
+      margin-right: 12px;
+      margin-bottom: 16px;
+    }
+    button:hover {
+      background-color: #1557b0;
+      box-shadow: 0 1px 2px rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
+    }
+    button:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.3);
+    }
+    a {
+      color: #1a73e8;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Colores de emociones para fieldsets */
+    .alegria legend { color: #fbbc04; }
+    .alegria { border-left: 4px solid #fbbc04; }
+
+    .tristeza legend { color: #4285f4; }
+    .tristeza { border-left: 4px solid #4285f4; }
+
+    .enojo legend { color: #ea4335; }
+    .enojo { border-left: 4px solid #ea4335; }
+
+    .interes legend { color: #34a853; }
+    .interes { border-left: 4px solid #34a853; }
+
+    .asco legend { color: #7cb342; }
+    .asco { border-left: 4px solid #7cb342; }
+
+    .ira legend { color: #d93025; }
+    .ira { border-left: 4px solid #d93025; }
+
+    .miedo legend { color: #9c27b0; }
+    .miedo { border-left: 4px solid #9c27b0; }
+
+    .verguenza legend { color: #e91e63; }
+    .verguenza { border-left: 4px solid #e91e63; }
+
+    .envidia legend { color: #388e3c; }
+    .envidia { border-left: 4px solid #388e3c; }
+  </style>
+</head>
+<body>
+
+<h1>Test de Emociones</h1>
+<p><strong>Instrucciones:</strong> Responde todas las preguntas marcando una opción (A, B, C o D).  
+Al finalizar, haz clic en <strong>"Calcular resultados"</strong> para ver tu nivel (bajo, medio o alto) en cada emoción.</p>
+
+<form id="testForm">
+
+  <!-- ALEGRÍA -->
+  <fieldset class="alegria">
+    <legend>ALEGRÍA (preguntas 1-7)</legend>
+
+    <div class="pregunta">1. Cuando recibes una buena noticia, normalmente:</div>
+    <label class="opcion"><input type="radio" name="q1" value="A"> A) Sonrío ligeramente</label>
+    <label class="opcion"><input type="radio" name="q1" value="B"> B) Comparto la noticia con alguien</label>
+    <label class="opcion"><input type="radio" name="q1" value="C"> C) No muestro mucha emoción</label>
+    <label class="opcion"><input type="radio" name="q1" value="D"> D) Me siento confundido/a</label>
+
+    <div class="pregunta">2. Si logras un objetivo importante:</div>
+    <label class="opcion"><input type="radio" name="q2" value="A"> A) Lo celebro en grande</label>
+    <label class="opcion"><input type="radio" name="q2" value="B"> B) Lo disfruto de forma tranquila</label>
+    <label class="opcion"><input type="radio" name="q2" value="C"> C) Lo minimizo</label>
+    <label class="opcion"><input type="radio" name="q2" value="D"> D) No siento gran cosa</label>
+
+    <div class="pregunta">3. La alegría en tu día a día generalmente es:</div>
+    <label class="opcion"><input type="radio" name="q3" value="A"> A) Frecuente y espontánea</label>
+    <label class="opcion"><input type="radio" name="q3" value="B"> B) Moderada</label>
+    <label class="opcion"><input type="radio" name="q3" value="C"> C) Poco común</label>
+    <label class="opcion"><input type="radio" name="q3" value="D"> D) Inexistente</label>
+
+    <div class="pregunta">4. Cuando estás feliz, tu energía:</div>
+    <label class="opcion"><input type="radio" name="q4" value="A"> A) Aumenta bastante</label>
+    <label class="opcion"><input type="radio" name="q4" value="B"> B) Sube un poco</label>
+    <label class="opcion"><input type="radio" name="q4" value="C"> C) Permanece igual</label>
+    <label class="opcion"><input type="radio" name="q4" value="D"> D) Disminuye</label>
+
+    <div class="pregunta">5. ¿Qué haces cuando algo te sale muy bien?</div>
+    <label class="opcion"><input type="radio" name="q5" value="A"> A) Lo comparto con amigos/familia</label>
+    <label class="opcion"><input type="radio" name="q5" value="B"> B) Me doy una pequeña recompensa</label>
+    <label class="opcion"><input type="radio" name="q5" value="C"> C) Lo ignoro</label>
+    <label class="opcion"><input type="radio" name="q5" value="D"> D) Me preocupa arruinarlo</label>
+
+    <div class="pregunta">6. La alegría te hace sentir:</div>
+    <label class="opcion"><input type="radio" name="q6" value="A"> A) Optimista</label>
+    <label class="opcion"><input type="radio" name="q6" value="B"> B) Tranquilo/a</label>
+    <label class="opcion"><input type="radio" name="q6" value="C"> C) Indiferente</label>
+    <label class="opcion"><input type="radio" name="q6" value="D"> D) Inseguro/a</label>
+
+    <div class="pregunta">7. Cuando otros están felices:</div>
+    <label class="opcion"><input type="radio" name="q7" value="A"> A) Me alegro con ellos</label>
+    <label class="opcion"><input type="radio" name="q7" value="B"> B) Mantengo distancia</label>
+    <label class="opcion"><input type="radio" name="q7" value="C"> C) No me afecta</label>
+    <label class="opcion"><input type="radio" name="q7" value="D"> D) Me molesta</label>
+  </fieldset>
+
+  <!-- TRISTEZA -->
+  <fieldset class="tristeza">
+    <legend>TRISTEZA (preguntas 8-14)</legend>
+
+    <div class="pregunta">8. Cuando algo te sale mal:</div>
+    <label class="opcion"><input type="radio" name="q8" value="A"> A) Me desmotivo fácilmente</label>
+    <label class="opcion"><input type="radio" name="q8" value="B"> B) Lo acepto con calma</label>
+    <label class="opcion"><input type="radio" name="q8" value="C"> C) Lo ignoro</label>
+    <label class="opcion"><input type="radio" name="q8" value="D"> D) Me pongo irritable</label>
+
+    <div class="pregunta">9. Cuando te sientes triste, sueles:</div>
+    <label class="opcion"><input type="radio" name="q9" value="A"> A) Llorar o sentir ganas de llorar</label>
+    <label class="opcion"><input type="radio" name="q9" value="B"> B) Buscar apoyo</label>
+    <label class="opcion"><input type="radio" name="q9" value="C"> C) Aislarme</label>
+    <label class="opcion"><input type="radio" name="q9" value="D"> D) Seguir como si nada</label>
+
+    <div class="pregunta">10. La tristeza te impulsa a:</div>
+    <label class="opcion"><input type="radio" name="q10" value="A"> A) Reflexionar</label>
+    <label class="opcion"><input type="radio" name="q10" value="B"> B) Buscar consuelo</label>
+    <label class="opcion"><input type="radio" name="q10" value="C"> C) Evitar a los demás</label>
+    <label class="opcion"><input type="radio" name="q10" value="D"> D) Actuar impulsivamente</label>
+
+    <div class="pregunta">11. ¿Cómo afecta la tristeza tu energía?</div>
+    <label class="opcion"><input type="radio" name="q11" value="A"> A) Baja mucho</label>
+    <label class="opcion"><input type="radio" name="q11" value="B"> B) Baja moderadamente</label>
+    <label class="opcion"><input type="radio" name="q11" value="C"> C) No cambia</label>
+    <label class="opcion"><input type="radio" name="q11" value="D"> D) Subo mi energía para distraerme</label>
+
+    <div class="pregunta">12. Cuando recuerdas momentos tristes:</div>
+    <label class="opcion"><input type="radio" name="q12" value="A"> A) Me afectan profundamente</label>
+    <label class="opcion"><input type="radio" name="q12" value="B"> B) Me entristecen un poco</label>
+    <label class="opcion"><input type="radio" name="q12" value="C"> C) Me son indiferentes</label>
+    <label class="opcion"><input type="radio" name="q12" value="D"> D) Me molestan</label>
+
+    <div class="pregunta">13. Ante un fracaso, sueles:</div>
+    <label class="opcion"><input type="radio" name="q13" value="A"> A) Sentirme insuficiente</label>
+    <label class="opcion"><input type="radio" name="q13" value="B"> B) Intentarlo de nuevo</label>
+    <label class="opcion"><input type="radio" name="q13" value="C"> C) Dejarlo pasar</label>
+    <label class="opcion"><input type="radio" name="q13" value="D"> D) Enojarme</label>
+
+    <div class="pregunta">14. Cuando otros están tristes:</div>
+    <label class="opcion"><input type="radio" name="q14" value="A"> A) Empatizo mucho</label>
+    <label class="opcion"><input type="radio" name="q14" value="B"> B) Intento apoyar</label>
+    <label class="opcion"><input type="radio" name="q14" value="C"> C) Me incomoda</label>
+    <label class="opcion"><input type="radio" name="q14" value="D"> D) Evito involucrarme</label>
+  </fieldset>
+
+  <!-- ENOJO -->
+  <fieldset class="enojo">
+    <legend>ENOJO (preguntas 15-21)</legend>
+
+    <div class="pregunta">15. Cuando alguien te contradice:</div>
+    <label class="opcion"><input type="radio" name="q15" value="A"> A) Me enojo rápido</label>
+    <label class="opcion"><input type="radio" name="q15" value="B"> B) Me incomoda</label>
+    <label class="opcion"><input type="radio" name="q15" value="C"> C) Lo tomo con calma</label>
+    <label class="opcion"><input type="radio" name="q15" value="D"> D) No me afecta</label>
+
+    <div class="pregunta">16. Si alguien comete una injusticia contigo:</div>
+    <label class="opcion"><input type="radio" name="q16" value="A"> A) Reacciono de inmediato</label>
+    <label class="opcion"><input type="radio" name="q16" value="B"> B) Me molesto pero no actúo</label>
+    <label class="opcion"><input type="radio" name="q16" value="C"> C) Trato de ignorarlo</label>
+    <label class="opcion"><input type="radio" name="q16" value="D"> D) No noto la injusticia</label>
+
+    <div class="pregunta">17. Cuando estás enojado/a, sueles:</div>
+    <label class="opcion"><input type="radio" name="q17" value="A"> A) Levantar la voz</label>
+    <label class="opcion"><input type="radio" name="q17" value="B"> B) Guardarlo</label>
+    <label class="opcion"><input type="radio" name="q17" value="C"> C) Hablar con calma</label>
+    <label class="opcion"><input type="radio" name="q17" value="D"> D) Alejarme</label>
+
+    <div class="pregunta">18. ¿Qué tan frecuente es tu enojo?</div>
+    <label class="opcion"><input type="radio" name="q18" value="A"> A) Muy frecuente</label>
+    <label class="opcion"><input type="radio" name="q18" value="B"> B) Moderado</label>
+    <label class="opcion"><input type="radio" name="q18" value="C"> C) Poco común</label>
+    <label class="opcion"><input type="radio" name="q18" value="D"> D) Raro</label>
+
+    <div class="pregunta">19. Ante un error ajeno:</div>
+    <label class="opcion"><input type="radio" name="q19" value="A"> A) Me irrito fácilmente</label>
+    <label class="opcion"><input type="radio" name="q19" value="B"> B) Me molesta un poco</label>
+    <label class="opcion"><input type="radio" name="q19" value="C"> C) Lo comprendo</label>
+    <label class="opcion"><input type="radio" name="q19" value="D"> D) No me afecta</label>
+
+    <div class="pregunta">20. Cuando algo no sale como esperas:</div>
+    <label class="opcion"><input type="radio" name="q20" value="A"> A) Pierdo la paciencia</label>
+    <label class="opcion"><input type="radio" name="q20" value="B"> B) Me frustro</label>
+    <label class="opcion"><input type="radio" name="q20" value="C"> C) Me adapto</label>
+    <label class="opcion"><input type="radio" name="q20" value="D"> D) Lo dejo pasar</label>
+
+    <div class="pregunta">21. Cuando otros se enojan contigo:</div>
+    <label class="opcion"><input type="radio" name="q21" value="A"> A) Respondo igual</label>
+    <label class="opcion"><input type="radio" name="q21" value="B"> B) Me defiendo</label>
+    <label class="opcion"><input type="radio" name="q21" value="C"> C) Mantengo la calma</label>
+    <label class="opcion"><input type="radio" name="q21" value="D"> D) Me alejo</label>
+  </fieldset>
+
+  <!-- INTERÉS -->
+  <fieldset class="interes">
+    <legend>INTERÉS / CURIOSIDAD (preguntas 22-28)</legend>
+
+    <div class="pregunta">22. Cuando te presentan un tema nuevo:</div>
+    <label class="opcion"><input type="radio" name="q22" value="A"> A) Me entusiasma</label>
+    <label class="opcion"><input type="radio" name="q22" value="B"> B) Me interesa moderadamente</label>
+    <label class="opcion"><input type="radio" name="q22" value="C"> C) Me da igual</label>
+    <label class="opcion"><input type="radio" name="q22" value="D"> D) Me desagrada</label>
+
+    <div class="pregunta">23. Si enfrentas un reto nuevo:</div>
+    <label class="opcion"><input type="radio" name="q23" value="A"> A) Me motiva</label>
+    <label class="opcion"><input type="radio" name="q23" value="B"> B) Lo intento con cautela</label>
+    <label class="opcion"><input type="radio" name="q23" value="C"> C) Lo evito</label>
+    <label class="opcion"><input type="radio" name="q23" value="D"> D) Me frustra</label>
+
+    <div class="pregunta">24. Cuando algo te llama la atención:</div>
+    <label class="opcion"><input type="radio" name="q24" value="A"> A) Investigo más</label>
+    <label class="opcion"><input type="radio" name="q24" value="B"> B) Pregunto</label>
+    <label class="opcion"><input type="radio" name="q24" value="C"> C) Solo observo</label>
+    <label class="opcion"><input type="radio" name="q24" value="D"> D) Lo ignoro</label>
+
+    <div class="pregunta">25. En clases o capacitaciones:</div>
+    <label class="opcion"><input type="radio" name="q25" value="A"> A) Participo activamente</label>
+    <label class="opcion"><input type="radio" name="q25" value="B"> B) Escucho con atención</label>
+    <label class="opcion"><input type="radio" name="q25" value="C"> C) Me distraigo</label>
+    <label class="opcion"><input type="radio" name="q25" value="D"> D) No presto atención</label>
+
+    <div class="pregunta">26. Cuando aprendes algo nuevo:</div>
+    <label class="opcion"><input type="radio" name="q26" value="A"> A) Me emociona intentarlo</label>
+    <label class="opcion"><input type="radio" name="q26" value="B"> B) Me interesa un poco</label>
+    <label class="opcion"><input type="radio" name="q26" value="C"> C) Lo olvido rápido</label>
+    <label class="opcion"><input type="radio" name="q26" value="D"> D) No me importa</label>
+
+    <div class="pregunta">27. Tu curiosidad en general es:</div>
+    <label class="opcion"><input type="radio" name="q27" value="A"> A) Muy alta</label>
+    <label class="opcion"><input type="radio" name="q27" value="B"> B) Moderada</label>
+    <label class="opcion"><input type="radio" name="q27" value="C"> C) Baja</label>
+    <label class="opcion"><input type="radio" name="q27" value="D"> D) Muy baja</label>
+
+    <div class="pregunta">28. Cuando otros te enseñan algo nuevo:</div>
+    <label class="opcion"><input type="radio" name="q28" value="A"> A) Me involucro</label>
+    <label class="opcion"><input type="radio" name="q28" value="B"> B) Lo escucho por cortesía</label>
+    <label class="opcion"><input type="radio" name="q28" value="C"> C) No le doy importancia</label>
+    <label class="opcion"><input type="radio" name="q28" value="D"> D) Me incomoda</label>
+  </fieldset>
+
+  <!-- ASCO -->
+  <fieldset class="asco">
+    <legend>ASCO (preguntas 29-35)</legend>
+
+    <div class="pregunta">29. Cuando ves algo desagradable:</div>
+    <label class="opcion"><input type="radio" name="q29" value="A"> A) Aparto la mirada enseguida</label>
+    <label class="opcion"><input type="radio" name="q29" value="B"> B) Lo observo con incomodidad</label>
+    <label class="opcion"><input type="radio" name="q29" value="C"> C) Me da un poco igual</label>
+    <label class="opcion"><input type="radio" name="q29" value="D"> D) No me afecta</label>
+
+    <div class="pregunta">30. Ante alimentos con mal olor:</div>
+    <label class="opcion"><input type="radio" name="q30" value="A"> A) Me repugnan</label>
+    <label class="opcion"><input type="radio" name="q30" value="B"> B) Me incomodan</label>
+    <label class="opcion"><input type="radio" name="q30" value="C"> C) Los tolero</label>
+    <label class="opcion"><input type="radio" name="q30" value="D"> D) No noto el olor</label>
+
+    <div class="pregunta">31. Ver lugares sucios me hace sentir:</div>
+    <label class="opcion"><input type="radio" name="q31" value="A"> A) Mucho rechazo</label>
+    <label class="opcion"><input type="radio" name="q31" value="B"> B) Incomodidad moderada</label>
+    <label class="opcion"><input type="radio" name="q31" value="C"> C) Indiferencia</label>
+    <label class="opcion"><input type="radio" name="q31" value="D"> D) Curiosidad</label>
+
+    <div class="pregunta">32. Si alguien tiene malos hábitos de higiene:</div>
+    <label class="opcion"><input type="radio" name="q32" value="A"> A) Me causa asco</label>
+    <label class="opcion"><input type="radio" name="q32" value="B"> B) Me incomoda</label>
+    <label class="opcion"><input type="radio" name="q32" value="C"> C) Lo tolero</label>
+    <label class="opcion"><input type="radio" name="q32" value="D"> D) No me importa</label>
+
+    <div class="pregunta">33. Cuando escucho sonidos desagradables (vomitar, eructar):</div>
+    <label class="opcion"><input type="radio" name="q33" value="A"> A) Me causa repulsión</label>
+    <label class="opcion"><input type="radio" name="q33" value="B"> B) Me incomoda</label>
+    <label class="opcion"><input type="radio" name="q33" value="C"> C) Me da igual</label>
+    <label class="opcion"><input type="radio" name="q33" value="D"> D) Me hace reír</label>
+
+    <div class="pregunta">34. Los insectos o animales rastreros me generan:</div>
+    <label class="opcion"><input type="radio" name="q34" value="A"> A) Asco intenso</label>
+    <label class="opcion"><input type="radio" name="q34" value="B"> B) Ligera molestia</label>
+    <label class="opcion"><input type="radio" name="q34" value="C"> C) Curiosidad</label>
+    <label class="opcion"><input type="radio" name="q34" value="D"> D) Ninguna emoción</label>
+
+    <div class="pregunta">35. Los malos olores en general:</div>
+    <label class="opcion"><input type="radio" name="q35" value="A"> A) Me afectan mucho</label>
+    <label class="opcion"><input type="radio" name="q35" value="B"> B) Me molestan</label>
+    <label class="opcion"><input type="radio" name="q35" value="C"> C) Me dan igual</label>
+    <label class="opcion"><input type="radio" name="q35" value="D"> D) No los percibo</label>
+  </fieldset>
+
+  <!-- IRA -->
+  <fieldset class="ira">
+    <legend>IRA (preguntas 36-42)</legend>
+
+    <div class="pregunta">36. Cuando algo te injusticia profundamente:</div>
+    <label class="opcion"><input type="radio" name="q36" value="A"> A) Pierdo el control</label>
+    <label class="opcion"><input type="radio" name="q36" value="B"> B) Me altero mucho pero me contengo</label>
+    <label class="opcion"><input type="radio" name="q36" value="C"> C) Me molesta ligeramente</label>
+    <label class="opcion"><input type="radio" name="q36" value="D"> D) No me afecta</label>
+
+    <div class="pregunta">37. En una discusión seria:</div>
+    <label class="opcion"><input type="radio" name="q37" value="A"> A) Grito</label>
+    <label class="opcion"><input type="radio" name="q37" value="B"> B) Hablo fuerte</label>
+    <label class="opcion"><input type="radio" name="q37" value="C"> C) Mantengo la calma</label>
+    <label class="opcion"><input type="radio" name="q37" value="D"> D) Evito discutir</label>
+
+    <div class="pregunta">38. Cuando alguien lastima a un ser querido:</div>
+    <label class="opcion"><input type="radio" name="q38" value="A"> A) Reacciono impulsivamente</label>
+    <label class="opcion"><input type="radio" name="q38" value="B"> B) Exijo explicaciones</label>
+    <label class="opcion"><input type="radio" name="q38" value="C"> C) Intento mediar</label>
+    <label class="opcion"><input type="radio" name="q38" value="D"> D) No intervengo</label>
+
+    <div class="pregunta">39. Si sientes que te humillan:</div>
+    <label class="opcion"><input type="radio" name="q39" value="A"> A) Estallo de furia</label>
+    <label class="opcion"><input type="radio" name="q39" value="B"> B) Me enojo profundamente</label>
+    <label class="opcion"><input type="radio" name="q39" value="C"> C) Lo ignoro</label>
+    <label class="opcion"><input type="radio" name="q39" value="D"> D) Me confundo</label>
+
+    <div class="pregunta">40. Cuando la gente no respeta reglas importantes:</div>
+    <label class="opcion"><input type="radio" name="q40" value="A"> A) Me enfurezco</label>
+    <label class="opcion"><input type="radio" name="q40" value="B"> B) Me molesta</label>
+    <label class="opcion"><input type="radio" name="q40" value="C"> C) Lo dejo pasar</label>
+    <label class="opcion"><input type="radio" name="q40" value="D"> D) No me afecta</label>
+
+    <div class="pregunta">41. Cuando recuerdas injusticias pasadas:</div>
+    <label class="opcion"><input type="radio" name="q41" value="A"> A) Siento rabia</label>
+    <label class="opcion"><input type="radio" name="q41" value="B"> B) Me incomodan</label>
+    <label class="opcion"><input type="radio" name="q41" value="C"> C) Me dan igual</label>
+    <label class="opcion"><input type="radio" name="q41" value="D"> D) No las recuerdo</label>
+
+    <div class="pregunta">42. Cuando estás extremadamente frustrado/a:</div>
+    <label class="opcion"><input type="radio" name="q42" value="A"> A) Me altero intensamente</label>
+    <label class="opcion"><input type="radio" name="q42" value="B"> B) Me tenso</label>
+    <label class="opcion"><input type="radio" name="q42" value="C"> C) Me adapto</label>
+    <label class="opcion"><input type="radio" name="q42" value="D"> D) Me desconecto</label>
+  </fieldset>
+
+  <!-- MIEDO -->
+  <fieldset class="miedo">
+    <legend>MIEDO (preguntas 43-49)</legend>
+
+    <div class="pregunta">43. Cuando estás solo/a en la noche:</div>
+    <label class="opcion"><input type="radio" name="q43" value="A"> A) Me asusto con facilidad</label>
+    <label class="opcion"><input type="radio" name="q43" value="B"> B) Me siento algo inquieto/a</label>
+    <label class="opcion"><input type="radio" name="q43" value="C"> C) Estoy tranquilo/a</label>
+    <label class="opcion"><input type="radio" name="q43" value="D"> D) Me relaja</label>
+
+    <div class="pregunta">44. Ante situaciones peligrosas:</div>
+    <label class="opcion"><input type="radio" name="q44" value="A"> A) Me paralizo</label>
+    <label class="opcion"><input type="radio" name="q44" value="B"> B) Me pongo nervioso/a</label>
+    <label class="opcion"><input type="radio" name="q44" value="C"> C) Mantengo la calma</label>
+    <label class="opcion"><input type="radio" name="q44" value="D"> D) Actúo sin miedo</label>
+
+    <div class="pregunta">45. Cuando escuchas ruidos extraños:</div>
+    <label class="opcion"><input type="radio" name="q45" value="A"> A) Me asusto rápido</label>
+    <label class="opcion"><input type="radio" name="q45" value="B"> B) Me pongo alerta</label>
+    <label class="opcion"><input type="radio" name="q45" value="C"> C) No me importa</label>
+    <label class="opcion"><input type="radio" name="q45" value="D"> D) Los ignoro</label>
+
+    <div class="pregunta">46. Si debes enfrentarte a algo desconocido:</div>
+    <label class="opcion"><input type="radio" name="q46" value="A"> A) Me da mucho miedo</label>
+    <label class="opcion"><input type="radio" name="q46" value="B"> B) Me da nervios</label>
+    <label class="opcion"><input type="radio" name="q46" value="C"> C) Me acerco con cautela</label>
+    <label class="opcion"><input type="radio" name="q46" value="D"> D) Me emociona</label>
+
+    <div class="pregunta">47. Cuando alguien te amenaza:</div>
+    <label class="opcion"><input type="radio" name="q47" value="A"> A) Me paralizo</label>
+    <label class="opcion"><input type="radio" name="q47" value="B"> B) Tiemblo</label>
+    <label class="opcion"><input type="radio" name="q47" value="C"> C) Me controlo</label>
+    <label class="opcion"><input type="radio" name="q47" value="D"> D) Me enfrento</label>
+
+    <div class="pregunta">48. Pensar en el futuro me genera:</div>
+    <label class="opcion"><input type="radio" name="q48" value="A"> A) Miedo</label>
+    <label class="opcion"><input type="radio" name="q48" value="B"> B) Inquietud</label>
+    <label class="opcion"><input type="radio" name="q48" value="C"> C) Certeza</label>
+    <label class="opcion"><input type="radio" name="q48" value="D"> D) Emoción</label>
+
+    <div class="pregunta">49. Ante una enfermedad:</div>
+    <label class="opcion"><input type="radio" name="q49" value="A"> A) Me asusto mucho</label>
+    <label class="opcion"><input type="radio" name="q49" value="B"> B) Me preocupa moderadamente</label>
+    <label class="opcion"><input type="radio" name="q49" value="C"> C) Lo tomo con calma</label>
+    <label class="opcion"><input type="radio" name="q49" value="D"> D) No me preocupa</label>
+  </fieldset>
+
+  <!-- VERGÜENZA -->
+  <fieldset class="verguenza">
+    <legend>VERGÜENZA (preguntas 50-56)</legend>
+
+    <div class="pregunta">50. Cuando todos te miran de repente:</div>
+    <label class="opcion"><input type="radio" name="q50" value="A"> A) Me pongo muy nervioso/a</label>
+    <label class="opcion"><input type="radio" name="q50" value="B"> B) Me incomoda</label>
+    <label class="opcion"><input type="radio" name="q50" value="C"> C) Lo acepto</label>
+    <label class="opcion"><input type="radio" name="q50" value="D"> D) Lo disfruto</label>
+
+    <div class="pregunta">51. Si cometes un error en público:</div>
+    <label class="opcion"><input type="radio" name="q51" value="A"> A) Me avergüenzo mucho</label>
+    <label class="opcion"><input type="radio" name="q51" value="B"> B) Me incomoda</label>
+    <label class="opcion"><input type="radio" name="q51" value="C"> C) Lo tomo con humor</label>
+    <label class="opcion"><input type="radio" name="q51" value="D"> D) Lo ignoro</label>
+
+    <div class="pregunta">52. Cuando tienes que hablar en público:</div>
+    <label class="opcion"><input type="radio" name="q52" value="A"> A) Me da mucha pena</label>
+    <label class="opcion"><input type="radio" name="q52" value="B"> B) Me da algo de nervios</label>
+    <label class="opcion"><input type="radio" name="q52" value="C"> C) Lo hago normal</label>
+    <label class="opcion"><input type="radio" name="q52" value="D"> D) Me encanta</label>
+
+    <div class="pregunta">53. Si alguien te hace un comentario sobre tu apariencia:</div>
+    <label class="opcion"><input type="radio" name="q53" value="A"> A) Me da mucha vergüenza</label>
+    <label class="opcion"><input type="radio" name="q53" value="B"> B) Me incomoda</label>
+    <label class="opcion"><input type="radio" name="q53" value="C"> C) Lo acepto</label>
+    <label class="opcion"><input type="radio" name="q53" value="D"> D) Lo ignoro</label>
+
+    <div class="pregunta">54. Cuando recuerdas momentos embarazosos:</div>
+    <label class="opcion"><input type="radio" name="q54" value="A"> A) Me da mucha pena</label>
+    <label class="opcion"><input type="radio" name="q54" value="B"> B) Me incomoda un poco</label>
+    <label class="opcion"><input type="radio" name="q54" value="C"> C) Me es indiferente</label>
+    <label class="opcion"><input type="radio" name="q54" value="D"> D) Me da risa</label>
+
+    <div class="pregunta">55. Si te equivocas frente a alguien importante:</div>
+    <label class="opcion"><input type="radio" name="q55" value="A"> A) Me avergüenzo muchísimo</label>
+    <label class="opcion"><input type="radio" name="q55" value="B"> B) Me pongo incómodo/a</label>
+    <label class="opcion"><input type="radio" name="q55" value="C"> C) Lo tomo con calma</label>
+    <label class="opcion"><input type="radio" name="q55" value="D"> D) No me importa</label>
+
+    <div class="pregunta">56. Cuando otros te observan haciendo algo:</div>
+    <label class="opcion"><input type="radio" name="q56" value="A"> A) Me da pena</label>
+    <label class="opcion"><input type="radio" name="q56" value="B"> B) Me incomoda</label>
+    <label class="opcion"><input type="radio" name="q56" value="C"> C) Lo tolero</label>
+    <label class="opcion"><input type="radio" name="q56" value="D"> D) No me afecta</label>
+  </fieldset>
+
+  <!-- ENVIDIA -->
+  <fieldset class="envidia">
+    <legend>ENVIDIA (preguntas 57-63)</legend>
+
+    <div class="pregunta">57. Cuando alguien logra algo que quieres:</div>
+    <label class="opcion"><input type="radio" name="q57" value="A"> A) Me molesta</label>
+    <label class="opcion"><input type="radio" name="q57" value="B"> B) Me incomoda</label>
+    <label class="opcion"><input type="radio" name="q57" value="C"> C) Me da gusto</label>
+    <label class="opcion"><input type="radio" name="q57" value="D"> D) No me afecta</label>
+
+    <div class="pregunta">58. Cuando ves que otros progresan más rápido:</div>
+    <label class="opcion"><input type="radio" name="q58" value="A"> A) Me da envidia fuerte</label>
+    <label class="opcion"><input type="radio" name="q58" value="B"> B) Me incomoda</label>
+    <label class="opcion"><input type="radio" name="q58" value="C"> C) Lo acepto</label>
+    <label class="opcion"><input type="radio" name="q58" value="D"> D) Me alegra</label>
+
+    <div class="pregunta">59. Si alguien recibe un reconocimiento que tú querías:</div>
+    <label class="opcion"><input type="radio" name="q59" value="A"> A) Me irrita</label>
+    <label class="opcion"><input type="radio" name="q59" value="B"> B) Me entristece</label>
+    <label class="opcion"><input type="radio" name="q59" value="C"> C) Lo felicito sinceramente</label>
+    <label class="opcion"><input type="radio" name="q59" value="D"> D) Me es indiferente</label>
+
+    <div class="pregunta">60. Cuando comparas tus logros con otros:</div>
+    <label class="opcion"><input type="radio" name="q60" value="A"> A) Me siento en desventaja</label>
+    <label class="opcion"><input type="radio" name="q60" value="B"> B) Me da un poco de envidia</label>
+    <label class="opcion"><input type="radio" name="q60" value="C"> C) Lo acepto</label>
+    <label class="opcion"><input type="radio" name="q60" value="D"> D) Me alegro por ellos</label>
+
+    <div class="pregunta">61. Si alguien obtiene algo sin esfuerzo:</div>
+    <label class="opcion"><input type="radio" name="q61" value="A"> A) Me molesta mucho</label>
+    <label class="opcion"><input type="radio" name="q61" value="B"> B) Me incomoda</label>
+    <label class="opcion"><input type="radio" name="q61" value="C"> C) No me afecta</label>
+    <label class="opcion"><input type="radio" name="q61" value="D"> D) Me alegra</label>
+
+    <div class="pregunta">62. Cuando otros muestran sus éxitos:</div>
+    <label class="opcion"><input type="radio" name="q62" value="A"> A) Siento envidia</label>
+    <label class="opcion"><input type="radio" name="q62" value="B"> B) Me incomoda</label>
+    <label class="opcion"><input type="radio" name="q62" value="C"> C) Me alegra</label>
+    <label class="opcion"><input type="radio" name="q62" value="D"> D) Me es indiferente</label>
+
+    <div class="pregunta">63. Cuando tú quieres algo que alguien más tiene:</div>
+    <label class="opcion"><input type="radio" name="q63" value="A"> A) Me frustra</label>
+    <label class="opcion"><input type="radio" name="q63" value="B"> B) Me motiva</label>
+    <label class="opcion"><input type="radio" name="q63" value="C"> C) Me da igual</label>
+    <label class="opcion"><input type="radio" name="q63" value="D"> D) Me alegra por ellos</label>
+  </fieldset>
+
+  <button type="button" onclick="calcularResultados()">Calcular resultados</button>
+</form>
+<button><a href="Vida%20Saludable.html">Regresar</a></button>
+<div id="resultados"></div>
+<p class="nota">
+  Interpretación general: por cada emoción, se cuentan los aciertos según la clave.  
+  0 a 2 aciertos = <strong>Bajo</strong>, 3 a 5 = <strong>Medio</strong>, 6 a 7 = <strong>Alto</strong>.
+</p>
+
+<script>
+  // Clave: opción que indica mayor presencia de la emoción
+  const clave = {
+    // Alegría
+    q1: 'B', q2: 'A', q3: 'A', q4: 'A', q5: 'A', q6: 'A', q7: 'A',
+    // Tristeza
+    q8: 'B', q9: 'B', q10: 'A', q11: 'B', q12: 'B', q13: 'B', q14: 'B',
+    // Enojo
+    q15: 'C', q16: 'B', q17: 'C', q18: 'D', q19: 'C', q20: 'C', q21: 'C',
+    // Interés
+    q22: 'A', q23: 'A', q24: 'A', q25: 'A', q26: 'A', q27: 'A', q28: 'A',
+    // Asco
+    q29: 'A', q30: 'A', q31: 'A', q32: 'A', q33: 'A', q34: 'A', q35: 'A',
+    // Ira
+    q36: 'B', q37: 'B', q38: 'B', q39: 'B', q40: 'A', q41: 'A', q42: 'B',
+    // Miedo
+    q43: 'A', q44: 'B', q45: 'A', q46: 'B', q47: 'B', q48: 'B', q49: 'B',
+    // Vergüenza
+    q50: 'A', q51: 'A', q52: 'B', q53: 'A', q54: 'A', q55: 'A', q56: 'A',
+    // Envidia
+    q57: 'A', q58: 'A', q59: 'A', q60: 'A', q61: 'A', q62: 'A', q63: 'A'
+  };
+
+  const grupos = {
+    'Alegría':  ['q1','q2','q3','q4','q5','q6','q7'],
+    'Tristeza': ['q8','q9','q10','q11','q12','q13','q14'],
+    'Enojo':    ['q15','q16','q17','q18','q19','q20','q21'],
+    'Interés':  ['q22','q23','q24','q25','q26','q27','q28'],
+    'Asco':     ['q29','q30','q31','q32','q33','q34','q35'],
+    'Ira':      ['q36','q37','q38','q39','q40','q41','q42'],
+    'Miedo':    ['q43','q44','q45','q46','q47','q48','q49'],
+    'Vergüenza':['q50','q51','q52','q53','q54','q55','q56'],
+    'Envidia':  ['q57','q58','q59','q60','q61','q62','q63']
+  };
+
+  function nivel(puntos) {
+    if (puntos <= 2) return {texto: 'Bajo', clase: 'baja'};
+    if (puntos <= 5) return {texto: 'Medio', clase: 'media'};
+    return {texto: 'Alto', clase: 'alta'};
+  }
+
+  function calcularResultados() {
+    let resultadosHtml = '<h2>Resultados</h2>';
+    let faltantes = [];
+
+    // Verificar si falta alguna respuesta
+    for (let i = 1; i <= 63; i++) {
+      const nombre = 'q' + i;
+      const marcado = document.querySelector('input[name="'+nombre+'"]:checked');
+      if (!marcado) {
+        faltantes.push(i);
+      }
+    }
+
+    if (faltantes.length > 0) {
+      resultadosHtml += '<p style="color:#d93025;"><strong>Te faltan preguntas por contestar:</strong> ' + faltantes.join(', ') + '.</p>';
+      document.getElementById('resultados').innerHTML = resultadosHtml;
+      return;
+    }
+
+    // Calcular puntuación por emoción
+    for (const emocion in grupos) {
+      let puntos = 0;
+      grupos[emocion].forEach(preg => {
+        const seleccion = document.querySelector('input[name="'+preg+'"]:checked').value;
+        if (seleccion === clave[preg]) {
+          puntos++;
+        }
+      });
+      const info = nivel(puntos);
+      resultadosHtml += '<div class="emocion"><strong>' + emocion + ':</strong> ' +
+                        puntos + ' aciertos (de 7) → ' +
+                        '<span class="' + info.clase + '">' + info.texto + '</span></div>';
+    }
+
+    resultadosHtml += '<p class="nota">Recuerda que este test no es un diagnóstico profesional, solo una herramienta de reflexión sobre tus emociones.</p>';
+    document.getElementById('resultados').innerHTML = resultadosHtml;
+  }
+</script>
+
+</body>
+</html>
